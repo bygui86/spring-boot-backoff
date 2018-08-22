@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "8398cb6b-3404-49b5-9e89-c29bd4a80547",
+		"name": "SPRING-BOOT-BACKOFF__TEST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0652e60e-4cc7-4f1b-aefd-d720869b99d2",
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"503 SERVICE UNAVAILABLE\"] = responseCode.code === 503;",
+							"",
+							"if (tests[\"503 SERVICE UNAVAILABLE\"]) {",
+							"    var data = JSON.parse(responseBody);",
+							"    tests[\"Body NOT NULL\"] = data !== null && data !== undefined;",
+							"    tests[\"Body IS NOT EMPTY\"] = data.constructor === Object && Object.keys(data).length !== 0;",
+							"    tests[\"Status NOT UP\"] = data.status == \"DOWN\" || data.status == \"OUT_OF_SERVICE\" || data.status == \"UNKNOWN\";",
+							"}",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8081/actuator/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"actuator",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ecbb041f-e122-4693-be10-442281a684bf",
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"200 OK\"] = responseCode.code === 200;",
+							"",
+							"// TODO verify the body is empty",
+							"",
+							"if (tests[\"200 OK\"]) {",
+							"    var data = JSON.parse(responseBody);",
+							"    tests[\"Body IS EMPTY\"] = data.constructor === Object && Object.keys(data).length === 0;",
+							"}",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8081/actuator/info",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"actuator",
+						"info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hello world",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4d82a0e1-5f28-424d-b998-3891f9b01bca",
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"404 NOT FOUND\"] = responseCode.code === 404;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8081/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
